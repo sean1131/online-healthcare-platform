@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questions & Answers - Farmersea</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="home.html" style="text-decoration: none; color: inherit;">
+                <span class="logo-text">Farmer</span>
+                <span class="logo-sub">SEA</span>
+            </a>
+        </div>
+        <nav>
+            <a href="cart.html" style="margin-right: 18px; font-size: 1.3em; vertical-align: middle;" title="Cart"><i class="fa fa-shopping-cart"></i></a>
+            <a href="login.html" class="login-btn" id="loginNavBtn" style="background: #4fc3f7; color: #fff; border: none; border-radius: 6px; padding: 10px 22px; font-size: 1em; cursor: pointer; text-decoration: none; display: inline-block;">Sign Up / Login</a>
+            <a href="profile.html" class="account-link" id="accountNavBtn" style="display: none; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: inherit;">
+                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Account">
+                <span style="font-size: 1em;">Account</span>
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>Questions & Answers</h2>
+
+        <!-- Card 1 -->
+        <div class="qa-card">
+            <div class="qa-icon">
+                <svg width="55" height="48" viewBox="0 0 56 48" fill="none">
+                    <ellipse cx="20" cy="24" rx="20" ry="19" fill="#E6F0FA"/>
+                    <ellipse cx="39" cy="28" rx="13" ry="13" fill="#FFF9E3"/>
+                    <circle cx="20" cy="24" r="13" fill="#41A0E4"/>
+                    <circle cx="39" cy="28" r="7" fill="#F0CA3E"/>
+                    <text x="12" y="29" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">Q</text>
+                    <text x="36" y="33" font-size="16" fill="#b69b23" font-family="Arial" font-weight="bold">A</text>
+                </svg>
+            </div>
+            <div class="qa-content">
+                <span class="qa-title">What are the most common symptoms of a cold?</span>
+                <span class="qa-date">14 months</span>
+                <p class="qa-preview">
+                    Hello Dr, I often feel unwell during the change of seasons. What symptoms should I look out for to know if I just have a common cold?
+                </p>
+                <div class="qa-answer">
+                    <div class="qa-meta">
+                        - Anonymous
+                    </div>
+                    <b>Answer:</b>
+                    <br>
+                    The most common symptoms of a cold include a runny or stuffy nose, sore throat, sneezing, mild fever, coughing, watery eyes, and sometimes a mild headache or body aches. These symptoms are generally mild and develop gradually.
+                </div>
+                <button class="qa-btn" onclick="toggleAnswer(this)">MORE</button>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="qa-card">
+            <div class="qa-icon">
+                <svg width="55" height="48" viewBox="0 0 56 48" fill="none">
+                    <ellipse cx="20" cy="24" rx="20" ry="19" fill="#E6F0FA"/>
+                    <ellipse cx="39" cy="28" rx="13" ry="13" fill="#FFF9E3"/>
+                    <circle cx="20" cy="24" r="13" fill="#41A0E4"/>
+                    <circle cx="39" cy="28" r="7" fill="#F0CA3E"/>
+                    <text x="12" y="29" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">Q</text>
+                    <text x="36" y="33" font-size="16" fill="#b69b23" font-family="Arial" font-weight="bold">A</text>
+                </svg>
+            </div>
+            <div class="qa-content">
+                <span class="qa-title">How can I tell if I have the flu or just a regular cold?</span>
+                <span class="qa-date">14 months</span>
+                <p class="qa-preview">
+                    Sometimes my symptoms seem worse than usual. How do I know if it's the flu and not just a cold?
+                </p>
+                <div class="qa-answer">
+                    <div class="qa-meta">
+                        - Anonymous<br>
+                        <span class="qa-answered">Answered</span>
+                    </div>
+                    <b>Answer:</b>
+                    <br>
+                    Flu symptoms tend to be more sudden and severe than those of a cold. Common flu symptoms include a high fever, chills, muscle aches, fatigue, headache, dry cough, and sometimes vomiting or diarrhea (more common in children). Colds usually develop gradually and rarely cause high fever or severe fatigue.
+                </div>
+                <button class="qa-btn" onclick="toggleAnswer(this)">MORE</button>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+       <div class="qa-card">
+    <div class="qa-icon">
+        <svg width="55" height="48" viewBox="0 0 56 48" fill="none">
+            <ellipse cx="20" cy="24" rx="20" ry="19" fill="#E6F0FA"/>
+            <ellipse cx="39" cy="28" rx="13" ry="13" fill="#FFF9E3"/>
+            <circle cx="20" cy="24" r="13" fill="#41A0E4"/>
+            <circle cx="39" cy="28" r="7" fill="#F0CA3E"/>
+            <text x="12" y="29" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">Q</text>
+            <text x="36" y="33" font-size="16" fill="#b69b23" font-family="Arial" font-weight="bold">A</text>
+        </svg>
+    </div>
+    <div class="qa-content">
+        <span class="qa-title">What are the warning signs of a severe allergy?</span>
+        <span class="qa-date">15 months</span>
+        <p class="qa-preview">
+            Hi, sometimes I get rashes and feel itchy. What symptoms should alert me that it's more serious and I need immediate help?
+        </p>
+        <div class="qa-answer">
+            <div class="qa-meta">
+                - Anonymous<br>
+                <span class="qa-answered">Answered</span>
+            </div>
+            <b>Answer (Video):</b><br>
+            <div style="position:relative; padding-bottom:56.25%; height:0; overflow:hidden;">
+                <iframe
+                    src="https://player.bilibili.com/player.html?bvid=BV1Pd4y1g7M7"
+                    scrolling="no"
+                    border="0"
+                    width="360"
+                    height="202"
+                    frameborder="no"
+                    framespacing="0"
+                    allowfullscreen="true"
+                    style="position:absolute; left:0; top:0; width:100%; height:100%;">
+                </iframe>
+            </div>
+            <div style="margin-top:8px;color:#6c7582;font-size:0.92rem;">
+                Watch this video to learn about the warning signs of severe allergy and when to seek emergency help.
+            </div>
+        </div>
+        <button class="qa-btn" onclick="toggleAnswer(this)">MORE</button>
+    </div>
+</div>
+
+
+
+        <!-- Card 4 -->
+        <div class="qa-card">
+            <div class="qa-icon">
+                <svg width="55" height="48" viewBox="0 0 56 48" fill="none">
+                    <ellipse cx="20" cy="24" rx="20" ry="19" fill="#E6F0FA"/>
+                    <ellipse cx="39" cy="28" rx="13" ry="13" fill="#FFF9E3"/>
+                    <circle cx="20" cy="24" r="13" fill="#41A0E4"/>
+                    <circle cx="39" cy="28" r="7" fill="#F0CA3E"/>
+                    <text x="12" y="29" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">Q</text>
+                    <text x="36" y="33" font-size="16" fill="#b69b23" font-family="Arial" font-weight="bold">A</text>
+                </svg>
+            </div>
+            <div class="qa-content">
+                <span class="qa-title">When should I worry about a headache?</span>
+                <span class="qa-date">13 months</span>
+                <p class="qa-preview">
+                    I get headaches from time to time, but sometimes they feel different. When is a headache a sign of something more serious?
+                </p>
+                <div class="qa-answer">
+                    <div class="qa-meta">
+                        - Anonymous<br>
+                        <span class="qa-answered">Answered</span>
+                    </div>
+                    <b>Answer:</b>
+                    <br>
+                    You should seek medical attention if your headache is sudden and severe, if it comes with neck stiffness, fever, confusion, vision changes, weakness, or after a head injury. Persistent headaches that do not respond to usual treatment or interfere with daily life also warrant a doctor's visit.
+                </div>
+                <button class="qa-btn" onclick="toggleAnswer(this)">MORE</button>
+            </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="qa-card">
+            <div class="qa-icon">
+                <svg width="55" height="48" viewBox="0 0 56 48" fill="none">
+                    <ellipse cx="20" cy="24" rx="20" ry="19" fill="#E6F0FA"/>
+                    <ellipse cx="39" cy="28" rx="13" ry="13" fill="#FFF9E3"/>
+                    <circle cx="20" cy="24" r="13" fill="#41A0E4"/>
+                    <circle cx="39" cy="28" r="7" fill="#F0CA3E"/>
+                    <text x="12" y="29" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">Q</text>
+                    <text x="36" y="33" font-size="16" fill="#b69b23" font-family="Arial" font-weight="bold">A</text>
+                </svg>
+            </div>
+            <div class="qa-content">
+                <span class="qa-title">What are the early symptoms of diabetes?</span>
+                <span class="qa-date">12 months</span>
+                <p class="qa-preview">
+                    Hi Dr, I have a family history of diabetes. What symptoms should I watch for in myself?
+                </p>
+                <div class="qa-answer">
+                    <div class="qa-meta">
+                        - Anonymous
+                    </div>
+                    <b>Answer:</b>
+                    <br>
+                    Early symptoms of diabetes can include frequent urination, increased thirst, unexplained weight loss, fatigue, blurred vision, slow healing of wounds, and increased hunger. Some people may have no symptoms. If you are at risk, regular screening is important.
+                </div>
+                <button class="qa-btn" onclick="toggleAnswer(this)">MORE</button>
+            </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="qa-card">
+            <div class="qa-icon">
+                <svg width="55" height="48" viewBox="0 0 56 48" fill="none">
+                    <ellipse cx="20" cy="24" rx="20" ry="19" fill="#E6F0FA"/>
+                    <ellipse cx="39" cy="28" rx="13" ry="13" fill="#FFF9E3"/>
+                    <circle cx="20" cy="24" r="13" fill="#41A0E4"/>
+                    <circle cx="39" cy="28" r="7" fill="#F0CA3E"/>
+                    <text x="12" y="29" font-size="16" fill="#fff" font-family="Arial" font-weight="bold">Q</text>
+                    <text x="36" y="33" font-size="16" fill="#b69b23" font-family="Arial" font-weight="bold">A</text>
+                </svg>
+            </div>
+            <div class="qa-content">
+                <span class="qa-title">How do I know if my stomach pain is serious?</span>
+                <span class="qa-date">11 months</span>
+                <p class="qa-preview">
+                    Sometimes I get stomach aches after eating, but when should I worry and see a doctor?
+                </p>
+                <div class="qa-answer">
+                    <div class="qa-meta">
+                        - Anonymous
+                    </div>
+                    <b>Answer:</b>
+                    <br>
+                    Seek medical attention if your stomach pain is severe, persistent, or associated with symptoms such as fever, vomiting blood, blood in stool, jaundice, chest pain, difficulty breathing, or unexplained weight loss. Sudden, sharp pain may indicate a medical emergency.
+                </div>
+                <button class="qa-btn" onclick="toggleAnswer(this)">MORE</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>FarmerSEA</h3>
+                <p>Your trusted online doctor and pharmacy platform, providing quality healthcare services across Southeast Asia.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="pharmacy.html">Online Pharmacy</a></li>
+                    <li><a href="booking.html">Doctor Consultation</a></li>
+                    <li><a href="Q&A.html">Health Q&A</a></li>
+                    <li><a href="#">Health Screening</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +60 12-345 6789</p>
+                    <p><i class="fas fa-envelope"></i> info@farmersea.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 FarmerSEA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC3BzzTtffo9hxv_zNeU8D9-MJB0PgIuAs",
+            authDomain: "team5app-20eb7.firebaseapp.com",
+            projectId: "team5app-20eb7",
+            storageBucket: "team5app-20eb7.appspot.com",
+            messagingSenderId: "946605117578",
+            appId: "1:946605117578:web:6f0f5cd91c689ca1f05d73"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById('loginNavBtn').style.display = 'none';
+                document.getElementById('accountNavBtn').style.display = 'flex';
+            } else {
+                document.getElementById('loginNavBtn').style.display = 'inline-block';
+                document.getElementById('accountNavBtn').style.display = 'none';
+            }
+        });
+
+        function toggleAnswer(btn) {
+            const answer = btn.parentNode.querySelector('.qa-answer');
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                btn.textContent = 'MORE';
+            } else {
+                answer.style.display = 'block';
+                btn.textContent = 'PICk UP';
+            }
+        }
+    </script>
+</body>
+</html>

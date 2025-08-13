@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy - Farmersea</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="home.html" style="text-decoration: none; color: inherit;">
+                <span class="logo-text">Farmer</span>
+                <span class="logo-sub">SEA</span>
+            </a>
+        </div>
+        <nav>
+            <a href="cart.html" style="margin-right: 18px; font-size: 1.3em; vertical-align: middle;" title="Cart"><i class="fa fa-shopping-cart"></i></a>
+            <a href="login.html" class="login-btn" id="loginNavBtn" style="background: #4fc3f7; color: #fff; border: none; border-radius: 6px; padding: 10px 22px; font-size: 1em; cursor: pointer; text-decoration: none; display: inline-block;">Sign Up / Login</a>
+            <a href="profile.html" class="account-link" id="accountNavBtn" style="display: none; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: inherit;">
+                <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Account">
+                <span style="font-size: 1em;">Account</span>
+            </a>
+        </nav>
+    </header>
+
+    <div class="pharmacy-container">
+        <h2>Pharmacy</h2>
+        <div class="products-row">
+
+            <div class="product-card" data-name="Acetaminophen 500mg Tablets" data-img="image.png">
+                <div class="corner-label">20% OFF</div>
+                <div class="delivery-label">SAME DAY DELIVERY</div>
+                <img src="image.png" alt="Drug 1" class="product-img">
+                <div class="product-name">Acetaminophen 500mg Tablets</div>
+                <div class="product-price">RM 12.80</div>
+                <div class="product-old-price">RM 16.00</div>
+            </div>
+
+            <div class="product-card" data-name="Ibuprofen 200mg Capsules" data-img="image1.png">
+                <div class="corner-label">25% OFF</div>
+                <div class="delivery-label">SAME DAY DELIVERY</div>
+                <img src="image1.png" alt="Drug 2" class="product-img">
+                <div class="product-name">Ibuprofen 200mg Capsules</div>
+                <div class="product-price">RM 15.00</div>
+                <div class="product-old-price">RM 20.00</div>
+            </div>
+
+            <div class="product-card" data-name="Youbgginged 40mg Capsules" data-img="image2.png">
+                <div class="corner-label">15% OFF</div>
+                <div class="delivery-label">SAME DAY DELIVERY</div>
+                <img src="image2.png" alt="Drug 3" class="product-img">
+                <div class="product-name">Loratadine 10mg Tablets</div>
+                <div class="product-price">RM 8.50</div>
+                <div class="product-old-price">RM 10.00</div>
+            </div>
+
+            <div class="product-card" data-name="Makernal 50mg Tablets" data-img="image3.png">
+                <div class="corner-label">35% OFF</div>
+                <div class="delivery-label">SAME DAY DELIVERY</div>
+                <img src="image3.png" alt="Drug 4" class="product-img">
+                <div class="product-name">Loratadine 10mg Tablets</div>
+                <div class="product-price">RM 18.50</div>
+                <div class="product-old-price">RM 40.00</div>
+            </div>
+
+            <div class="product-card" data-name="Hirteanion 25mg Tablets" data-img="image4.png">
+                <div class="corner-label">25% OFF</div>
+                <div class="delivery-label">SAME DAY DELIVERY</div>
+                <img src="image4.png" alt="Drug 5" class="product-img">
+                <div class="product-name">Loratadine 10mg Tablets</div>
+                <div class="product-price">RM 38.50</div>
+                <div class="product-old-price">RM 53.00</div>
+            </div>
+
+            <div class="product-card" data-name="Morabrinem  30mg Tablets" data-img="image5.png">
+                <div class="corner-label">20% OFF</div>
+                <div class="delivery-label">SAME DAY DELIVERY</div>
+                <img src="image5.png" alt="Drug 6" class="product-img">
+                <div class="product-name">Loratadine 10mg Tablets</div>
+                <div class="product-price">RM 38.50</div>
+                <div class="product-old-price">RM 53.00</div>
+            </div>
+
+        </div>
+    </div>
+    
+
+    <div class="global-quantity-panel" id="globalQtyPanel">
+        <img src="" class="panel-drug-img" id="panelDrugImg" style="display:none;">
+        <div class="panel-drug-name" id="panelDrugName"></div>
+        <div class="panel-qty-row">
+            <button class="qty-btn" onclick="changeQty(-1)">-</button>
+            <input type="text" class="qty-input" id="panelQtyInput" value="1" readonly>
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+        </div>
+        <button class="add-cart-btn" style="background:#1a6ec1; color:#fff; border:none; border-radius:8px; padding:8px 18px; margin:0 10px; font-size:1em; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:8px;"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+        <button class="qty-close" onclick="closeGlobalQty()">×</button>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>FarmerSEA</h3>
+                <p>Your trusted online doctor and pharmacy platform, providing quality healthcare services across Southeast Asia.</p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="pharmacy.html">Online Pharmacy</a></li>
+                    <li><a href="booking.html">Doctor Consultation</a></li>
+                    <li><a href="Q&A.html">Health Q&A</a></li>
+                    <li><a href="#">Health Screening</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact Info</h4>
+                <div class="contact-info">
+                    <p><i class="fas fa-phone"></i> +60 12-345 6789</p>
+                    <p><i class="fas fa-envelope"></i> info@farmersea.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 FarmerSEA. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyC3BzzTtffo9hxv_zNeU8D9-MJB0PgIuAs",
+            authDomain: "team5app-20eb7.firebaseapp.com",
+            projectId: "team5app-20eb7",
+            storageBucket: "team5app-20eb7.appspot.com",
+            messagingSenderId: "946605117578",
+            appId: "1:946605117578:web:6f0f5cd91c689ca1f05d73"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                document.getElementById('loginNavBtn').style.display = 'none';
+                document.getElementById('accountNavBtn').style.display = 'flex';
+            } else {
+                document.getElementById('loginNavBtn').style.display = 'inline-block';
+                document.getElementById('accountNavBtn').style.display = 'none';
+            }
+        });
+
+        let selectedProduct = null;
+        let qty = 1;
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function() {
+                selectedProduct = card;
+                qty = 1;
+                document.getElementById('panelQtyInput').value = qty;
+               
+                document.getElementById('panelDrugName').textContent = card.getAttribute('data-name') || '';
+                
+                const img = card.getAttribute('data-img');
+                const imgElem = document.getElementById('panelDrugImg');
+                if(img) {
+                    imgElem.src = img;
+                    imgElem.style.display = 'block';
+                } else {
+                    imgElem.style.display = 'none';
+                }
+                document.getElementById('globalQtyPanel').style.display = 'block';
+            });
+        });
+
+        function changeQty(delta) {
+            qty += delta;
+            if(qty < 1) qty = 1;
+            document.getElementById('panelQtyInput').value = qty;
+        }
+
+        function closeGlobalQty() {
+            document.getElementById('globalQtyPanel').style.display = 'none';
+        }
+
+        document.addEventListener('click', function(e){
+            if(
+                !e.target.closest('.global-quantity-panel') &&
+                !e.target.closest('.product-card')
+            ) {
+                closeGlobalQty();
+            }
+        });
+
+        // Add to Cart logic
+        document.querySelector('.add-cart-btn').addEventListener('click', function() {
+            if (!selectedProduct) return;
+            const name = selectedProduct.getAttribute('data-name');
+            const img = selectedProduct.getAttribute('data-img');
+            // Get price as float (remove RM and spaces)
+            const priceText = selectedProduct.querySelector('.product-price').textContent.replace(/[^\d.]/g, '');
+            const price = parseFloat(priceText);
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            // Check if already in cart
+            const idx = cart.findIndex(item => item.name === name);
+            if (idx !== -1) {
+                cart[idx].qty += qty;
+            } else {
+                cart.push({ name, img, price, qty });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            // Show confirmation
+            this.textContent = 'Added!';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fa fa-shopping-cart"></i> Add to Cart';
+            }, 1000);
+            closeGlobalQty();
+        });
+    </script>
+</body>
+</html>

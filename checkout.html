@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout - Farmersea</title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="checkout.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    .address-autocomplete input {
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 6px 6px 0 0;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    #address-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid #e0e6ed;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      z-index: 1200;
+      display: none;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    #address-suggestions div {
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #address-suggestions div:hover {
+      background: #eaf6ff;
+    }
+    .payment-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+    }
+    .payment-option {
+      border: 2px solid #e0e6ed;
+    }
+    .payment-option input[type="radio"]:checked + i,
+    .payment-option input[type="radio"]:checked ~ span {
+      color: #1a6ec1;
+    }
+    .payment-option:has(input[type="radio"]:checked) {
+      border: 2px solid #1a6ec1;
+      background: #eaf6ff;
+    }
+    .payment-methods {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .payment-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #f7f9fb;
+      border: 2px solid #e0e6ed;
+      border-radius: 8px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: border 0.2s, background 0.2s;
+      font-size: 1.1em;
+      min-width: 0;
+      justify-content: center;
+    }
+    .payment-option:has(input[type="radio"]:checked) {
+      border: 2px solid #1a6ec1;
+      background: #eaf6ff;
+    }
+    .payment-option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      margin-right: 8px;
+    }
+    .card-details-row input {
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 6px;
+      margin-top: 4px;
+    }
+    .card-details-row label {
+      font-size: 1em;
+      color: #555;
+      margin-bottom: 2px;
+      font-weight: 500;
+    }
+    @media (max-width: 700px) {
+      .card-details-row {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+    .expiry-cvv-row input {
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 6px;
+      margin-top: 4px;
+    }
+    .expiry-cvv-row label {
+      font-size: 1em;
+      color: #555;
+      margin-bottom: 2px;
+      font-weight: 500;
+    }
+    @media (max-width: 700px) {
+      .expiry-cvv-row {
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="home.html" style="text-decoration: none; color: inherit;">
+        <span class="logo-text">Farmer</span>
+        <span class="logo-sub">SEA</span>
+      </a>
+    </div>
+    <nav>
+      <a href="cart.html" style="margin-right: 18px; font-size: 1.3em; vertical-align: middle;" title="Cart"><i class="fa fa-shopping-cart"></i></a>
+      <a href="login.html" class="login-btn" id="loginNavBtn">Sign Up / Login</a>
+      <a href="profile.html" class="account-link" id="accountNavBtn" style="display: none; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: inherit;">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Account">
+        <span style="font-size: 1em;">Account</span>
+      </a>
+    </nav>
+  </header>
+  <main>
+    <h1>Checkout</h1>
+    <div class="checkout-container">
+      <form class="checkout-form">
+        <h2 style="color:#1a6ec1; margin-bottom: 18px;">Shipping Details</h2>
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Full Name" required>
+        <label for="address">Address</label>
+        <div class="address-autocomplete" style="position:relative;">
+          <input type="text" id="address" name="address" placeholder="Address" required autocomplete="off">
+          <div id="address-suggestions"></div>
+        </div>
+        <div id="map" style="height: 260px; border-radius: 12px; margin-bottom: 12px; position: relative;"></div>
+        <!-- Floating location button -->
+        <button type="button" id="locateBtn" style="position: absolute; top: 18px; right: 18px; z-index: 1000; background: #fff; border: none; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.13); width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+          <i class="fa fa-crosshairs" style="font-size: 1.5em; color: #222;"></i>
+        </button>
+        <label for="country">Country</label>
+        <select id="country" name="country" required>
+          <option value="Malaysia">Malaysia</option>
+        </select>
+        <label for="phone">Phone Number</label>
+        <input type="text" id="phone" name="phone" placeholder="Phone Number" required>
+        <h2 style="color:#1a6ec1; margin-bottom: 18px; margin-top: 28px;">Payment Details</h2>
+        <div class="payment-methods">
+          <label class="payment-option">
+            <input type="radio" name="paymentMethod" value="card" checked>
+            <i class="fa fa-credit-card" style="font-size: 1.5em; color: #1976ed;"></i>
+            <span>Credit/Debit Card</span>
+          </label>
+          <label class="payment-option">
+            <input type="radio" name="paymentMethod" value="bank">
+            <i class="fa fa-university" style="font-size: 1.5em; color: #4fc3f7;"></i>
+            <span>Bank Transfer</span>
+          </label>
+        </div>
+        <div id="cardDetailsSection">
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; flex-direction: column; margin-bottom: 10px;">
+              <label for="card">Card Number</label>
+              <input type="text" id="card" name="card" placeholder="Card Number" maxlength="19" required>
+            </div>
+            <div class="expiry-cvv-row" style="display: flex; gap: 16px;">
+              <div style="flex:1; display: flex; flex-direction: column;">
+                <label for="expiry">Expiry Date</label>
+                <input type="text" id="expiry" name="expiry" placeholder="MM/YY" maxlength="5" required>
+              </div>
+              <div style="flex:1; display: flex; flex-direction: column;">
+                <label for="cvv">CVV</label>
+                <input type="password" id="cvv" name="cvv" placeholder="CVV" maxlength="3" required>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="bankDetailsSection" style="display:none; background: #f7f9fb; border-radius: 8px; padding: 16px; margin-bottom: 10px;">
+          <b>Select Your Bank:</b>
+          <div id="bankList" class="bank-list">
+            <label class="bank-row"><input type="radio" name="bank" value="Maybank2u"> Maybank2u</label>
+            <label class="bank-row"><input type="radio" name="bank" value="CIMB Clicks"> CIMB Clicks</label>
+            <label class="bank-row"><input type="radio" name="bank" value="Public Bank"> Public Bank</label>
+            <label class="bank-row"><input type="radio" name="bank" value="RHB Now"> RHB Now</label>
+            <label class="bank-row"><input type="radio" name="bank" value="Ambank"> Ambank</label>
+            <label class="bank-row"><input type="radio" name="bank" value="MyBSN"> MyBSN</label>
+            <label class="bank-row"><input type="radio" name="bank" value="Bank Rakyat"> Bank Rakyat</label>
+            <label class="bank-row"><input type="radio" name="bank" value="UOB"> UOB</label>
+            <label class="bank-row"><input type="radio" name="bank" value="Affin Bank"> Affin Bank</label>
+          </div>
+        </div>
+        <button type="submit" class="checkout-btn">Pay Now</button>
+      </form>
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div id="orderSummaryContent"></div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>FarmerSEA</h3>
+        <p>Your trusted online doctor and pharmacy platform, providing quality healthcare services across Southeast Asia.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="pharmacy.html">Online Pharmacy</a></li>
+          <li><a href="booking.html">Doctor Consultation</a></li>
+          <li><a href="Q&A.html">Health Q&A</a></li>
+          <li><a href="#">Health Screening</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +60 12-345 6789</p>
+          <p><i class="fas fa-envelope"></i> info@farmersea.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 FarmerSEA. All rights reserved.</p>
+    </div>
+  </footer>
+  <div id="paymentSuccessModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:18px; max-width:350px; margin:auto; padding:36px 28px 28px 28px; box-shadow:0 8px 32px rgba(26,110,193,0.13); text-align:center;">
+      <div style="margin-bottom:18px;">
+        <i class="fa fa-check-circle" style="font-size:3.5em; color:#4fc3f7;"></i>
+      </div>
+      <h2 style="color:#1a6ec1; margin-bottom:10px;">Payment Successful!</h2>
+      <p style="color:#333; font-size:1.1em; margin-bottom:22px;">Thank you for your purchase.<br>Your order has been placed.</p>
+      <button onclick="window.location.href='home.html'" style="background:#1a6ec1; color:#fff; border:none; border-radius:8px; padding:12px 32px; font-size:1.1em; font-weight:600; cursor:pointer;">Back to Home</button>
+    </div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3BzzTtffo9hxv_zNeU8D9-MJB0PgIuAs",
+      authDomain: "team5app-20eb7.firebaseapp.com",
+      projectId: "team5app-20eb7",
+      storageBucket: "team5app-20eb7.appspot.com",
+      messagingSenderId: "946605117578",
+      appId: "1:946605117578:web:6f0f5cd91c689ca1f05d73"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        document.getElementById('loginNavBtn').style.display = 'none';
+        document.getElementById('accountNavBtn').style.display = 'flex';
+      } else {
+        document.getElementById('loginNavBtn').style.display = 'inline-block';
+        document.getElementById('accountNavBtn').style.display = 'none';
+      }
+    });
+    document.querySelector('.checkout-form').onsubmit = function(e) {
+      e.preventDefault();
+      // Clear cart after payment
+      localStorage.removeItem('cart');
+      // Show beautiful payment success modal
+      document.getElementById('paymentSuccessModal').style.display = 'flex';
+      // Optionally, scroll to top
+      window.scrollTo({top:0, behavior:'smooth'});
+    };
+
+    // --- OpenStreetMap/Leaflet location logic ---
+    let map, marker, dragTimeout, isDragging = false, userLocationMarker = null;
+    function setAddressFromLatLng(lat, lng) {
+      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('address').value = data.display_name || '';
+        });
+    }
+    function initMap() {
+      map = L.map('map').setView([3.139, 101.6869], 13); // Default: Kuala Lumpur
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+      }).addTo(map);
+      marker = L.marker([3.139, 101.6869], {draggable:false, riseOnHover:true}).addTo(map);
+      marker.on('dragend', function(e) {
+        const latlng = marker.getLatLng();
+        setAddressFromLatLng(latlng.lat, latlng.lng);
+        marker.dragging.disable();
+        isDragging = false;
+      });
+      // Add click/tap event to marker to get address at its location with feedback
+      function markerGetAddress() {
+        const latlng = marker.getLatLng();
+        marker.bindPopup('Getting address...').openPopup();
+        setAddressFromLatLng(latlng.lat, latlng.lng);
+        setTimeout(() => marker.closePopup(), 1200);
+      }
+      marker.on('click', markerGetAddress);
+      marker.on('tap', markerGetAddress);
+      // Map click: move marker and update address
+      map.on('click', function(e) {
+        if (!isDragging) {
+          marker.setLatLng(e.latlng);
+          setAddressFromLatLng(e.latlng.lat, e.latlng.lng);
+        }
+      });
+      // Long press logic
+      let pressTimer;
+      map.on('mousedown', function(e) {
+        pressTimer = setTimeout(function() {
+          marker.dragging.enable();
+          isDragging = true;
+        }, 500); // 500ms for long press
+      });
+      map.on('mouseup', function(e) {
+        clearTimeout(pressTimer);
+      });
+      map.on('mouseout', function(e) {
+        clearTimeout(pressTimer);
+      });
+      // For touch devices
+      map.on('touchstart', function(e) {
+        pressTimer = setTimeout(function() {
+          marker.dragging.enable();
+          isDragging = true;
+        }, 500);
+      });
+      map.on('touchend', function(e) {
+        clearTimeout(pressTimer);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      initMap();
+      // Move the floating button into the map container
+      document.getElementById('map').appendChild(document.getElementById('locateBtn'));
+      document.getElementById('locateBtn').onclick = function(e) {
+        e.stopPropagation();
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            map.setView([lat, lng], 16);
+            // Move both the main marker and the blue dot to the exact GPS location
+            marker.setLatLng([lat, lng]);
+            setAddressFromLatLng(lat, lng); // Always use GPS coordinates for address
+            if (userLocationMarker) {
+              userLocationMarker.setLatLng([lat, lng]);
+            } else {
+              userLocationMarker = L.circleMarker([lat, lng], {
+                radius: 9,
+                color: '#1976ed',
+                fillColor: '#4fc3f7',
+                fillOpacity: 0.9,
+                weight: 3
+              }).addTo(map);
+            }
+          }, function() {
+            alert('Unable to retrieve your location.');
+          }, { enableHighAccuracy: true });
+        } else {
+          alert('Geolocation is not supported by your browser.');
+        }
+      };
+    });
+    // --- Address autocomplete logic ---
+    const addressInput = document.getElementById('address');
+    const suggestionsBox = document.getElementById('address-suggestions');
+    let autocompleteTimeout = null;
+    addressInput.addEventListener('input', function() {
+      const query = addressInput.value.trim();
+      if (autocompleteTimeout) clearTimeout(autocompleteTimeout);
+      if (query.length < 3) {
+        suggestionsBox.style.display = 'none';
+        return;
+      }
+      autocompleteTimeout = setTimeout(() => {
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`)
+          .then(res => res.json())
+          .then(results => {
+            suggestionsBox.innerHTML = '';
+            if (results.length === 0) {
+              suggestionsBox.style.display = 'none';
+              return;
+            }
+            results.forEach(item => {
+              const div = document.createElement('div');
+              div.textContent = item.display_name;
+              div.style.padding = '8px 14px';
+              div.style.cursor = 'pointer';
+              div.onmouseover = () => div.style.background = '#eaf6ff';
+              div.onmouseout = () => div.style.background = '#fff';
+              div.onclick = () => {
+                addressInput.value = item.display_name;
+                suggestionsBox.style.display = 'none';
+                const lat = parseFloat(item.lat);
+                const lon = parseFloat(item.lon);
+                map.setView([lat, lon], 16);
+                marker.setLatLng([lat, lon]);
+                if (userLocationMarker) {
+                  userLocationMarker.setLatLng([lat, lon]);
+                }
+              };
+              suggestionsBox.appendChild(div);
+            });
+            suggestionsBox.style.display = 'block';
+          });
+      }, 300);
+    });
+    // Hide suggestions on blur
+    addressInput.addEventListener('blur', function() {
+      setTimeout(() => suggestionsBox.style.display = 'none', 200);
+    });
+    // Geocode on Enter or blur
+    addressInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        geocodeAddress(addressInput.value);
+        suggestionsBox.style.display = 'none';
+      }
+    });
+    function geocodeAddress(query) {
+      if (!query || query.length < 3) return;
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=1`)
+        .then(res => res.json())
+        .then(results => {
+          if (results.length > 0) {
+            const lat = parseFloat(results[0].lat);
+            const lon = parseFloat(results[0].lon);
+            map.setView([lat, lon], 16);
+            marker.setLatLng([lat, lon]);
+            if (userLocationMarker) {
+              userLocationMarker.setLatLng([lat, lon]);
+            }
+          }
+        });
+    }
+    addressInput.addEventListener('blur', function() {
+      geocodeAddress(addressInput.value);
+    });
+
+    // Payment method toggle logic
+    document.querySelectorAll('input[name="paymentMethod"]').forEach(function(radio) {
+      radio.addEventListener('change', function() {
+        if (this.value === 'card') {
+          document.getElementById('cardDetailsSection').style.display = '';
+          document.getElementById('bankDetailsSection').style.display = 'none';
+          document.getElementById('card').required = true;
+          document.getElementById('expiry').required = true;
+          document.getElementById('cvv').required = true;
+        } else {
+          document.getElementById('cardDetailsSection').style.display = 'none';
+          document.getElementById('bankDetailsSection').style.display = '';
+          document.getElementById('card').required = false;
+          document.getElementById('expiry').required = false;
+          document.getElementById('cvv').required = false;
+        }
+      });
+    });
+    // Auto-insert '/' in expiry date after 2 digits
+    document.getElementById('expiry').addEventListener('input', function(e) {
+      let value = this.value.replace(/[^0-9]/g, '');
+      if (value.length > 2) {
+        value = value.slice(0,2) + '/' + value.slice(2,4);
+      }
+      this.value = value.slice(0,5);
+    });
+
+    // Render order summary from cart
+    function renderOrderSummary() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const container = document.getElementById('orderSummaryContent');
+      if (!container) return;
+      if (!cart.length) {
+        container.innerHTML = '<div class="summary-item">Your cart is empty.</div>';
+        return;
+      }
+      let total = 0;
+      let html = '';
+      cart.forEach(item => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        html += `<div class="summary-item"><span class="item-name">${item.name} x${item.qty}</span><span class="item-price">RM ${subtotal.toFixed(2)}</span></div>`;
+      });
+      html += `<div class="summary-total"><span class="total-label">Total</span><span class="total-price">RM ${total.toFixed(2)}</span></div>`;
+      container.innerHTML = html;
+    }
+    renderOrderSummary();
+
+    // --- Bank selection logic ---
+    const bankDetails = {
+      'Maybank2u': {
+        name: 'Maybank2u',
+        account: '123-456-789',
+        accName: 'FarmerSEA',
+      },
+      'CIMB Clicks': {
+        name: 'CIMB Clicks',
+        account: '234-567-890',
+        accName: 'FarmerSEA',
+      },
+      'Public Bank': {
+        name: 'Public Bank',
+        account: '345-678-901',
+        accName: 'FarmerSEA',
+      },
+      'RHB Now': {
+        name: 'RHB Now',
+        account: '456-789-012',
+        accName: 'FarmerSEA',
+      },
+      'Ambank': {
+        name: 'Ambank',
+        account: '567-890-123',
+        accName: 'FarmerSEA',
+      },
+      'MyBSN': {
+        name: 'MyBSN',
+        account: '678-901-234',
+        accName: 'FarmerSEA',
+      },
+      'Bank Rakyat': {
+        name: 'Bank Rakyat',
+        account: '789-012-345',
+        accName: 'FarmerSEA',
+      },
+      'UOB': {
+        name: 'UOB',
+        account: '890-123-456',
+        accName: 'FarmerSEA',
+      },
+      'Affin Bank': {
+        name: 'Affin Bank',
+        account: '901-234-567',
+        accName: 'FarmerSEA',
+      }
+    };
+    document.querySelectorAll('.bank-row').forEach(label => {
+      label.addEventListener('click', function() {
+        document.querySelectorAll('.bank-row').forEach(row => row.classList.remove('selected'));
+        this.classList.add('selected');
+        const bankName = this.querySelector('input[name="bank"]').value;
+        const details = bankDetails[bankName];
+        document.getElementById('bankTransferInstructions').innerHTML =
+          `<b>Bank Transfer Instructions:</b><br>
+          Please transfer to:<br>
+          <span style='color:#1976ed;'>Bank Name: ${details.name}<br>Account No: ${details.account}<br>Account Name: ${details.accName}</span>`;
+      });
+    });
+  </script>
+</body>
+</html> 

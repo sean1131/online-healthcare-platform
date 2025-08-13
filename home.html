@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Farmersea</title>
+  <link rel="stylesheet" href="home.css">
+  <!-- For search icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="home.html" style="text-decoration: none; color: inherit;">
+        <span class="logo-text">Farmer</span>
+        <span class="logo-sub">SEA</span>
+      </a>
+    </div>
+    <nav>
+      <a href="cart.html" style="margin-right: 18px; font-size: 1.3em; vertical-align: middle;" title="Cart"><i class="fa fa-shopping-cart"></i></a>
+      <a href="login.html" class="login-btn" id="loginNavBtn" style="background: #4fc3f7; color: #fff; border: none; border-radius: 6px; padding: 10px 22px; font-size: 1em; cursor: pointer; text-decoration: none; display: inline-block;">Sign Up / Login</a>
+      <a href="profile.html" class="account-link" id="accountNavBtn" style="display: none; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: inherit;">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Account">
+        <span style="font-size: 1em;">Account</span>
+      </a>
+    </nav>
+  </header>
+  <main>
+    <h1>FarmerSEA - Your Online Doctor and Pharmacy</h1>
+    <div class="search-bar-container">
+      <input class="search-bar" type="text" placeholder="Search Medicine & Health Screening">
+      <button class="search-btn"><i class="fa fa-search"></i></button>
+    </div>
+    <div class="cards">
+      <a href="pharmacy.html" class="card" style="text-decoration: none; color: inherit;">
+        <div class="card-label online">ONLINE</div>
+        <img src="https://assets.isu.pub/document-structure/230608093600-55c442e128290dfc08097b1ef61bd187/v1/4ac200faa85315dc4d09e448d1e1a44c.jpeg" alt="Pharmacy">
+        <div class="card-title">Pharmacy</div>
+      </a>
+      <a href="booking.html" class="card" style="text-decoration: none; color: inherit;">
+        <div class="card-label booking">BOOKING</div>
+        <img src="https://wellmedbangkok.com/wp-content/uploads/2023/02/Teleconsult.png" alt="Booking">
+        <div class="card-title">Booking</div>
+      </a>
+      <a href="q&a.html" class="card" style="text-decoration: none; color: inherit;">
+        <div class="card-label qna">QNA</div>
+        <img src="https://img.freepik.com/premium-photo/stethoscope-doctor-checkup-health-medical-laboratory-table-as-medical-concept_41929-2718.jpg?w=360" alt="QNA">
+        <div class="card-title">QNA</div>
+      </a>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>FarmerSEA</h3>
+        <p>Your trusted online doctor and pharmacy platform, providing quality healthcare services across Southeast Asia.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="pharmacy.html">Online Pharmacy</a></li>
+          <li><a href="booking.html">Doctor Consultation</a></li>
+          <li><a href="Q&A.html">Health Q&A</a></li>
+          <li><a href="#">Health Screening</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +60 12-345 6789</p>
+          <p><i class="fas fa-envelope"></i> info@farmersea.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2024 FarmerSEA. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC3BzzTtffo9hxv_zNeU8D9-MJB0PgIuAs",
+    authDomain: "team5app-20eb7.firebaseapp.com",
+    projectId: "team5app-20eb7",
+    storageBucket: "team5app-20eb7.appspot.com",
+    messagingSenderId: "946605117578",
+    appId: "1:946605117578:web:6f0f5cd91c689ca1f05d73"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      document.getElementById('loginNavBtn').style.display = 'none';
+      document.getElementById('accountNavBtn').style.display = 'flex';
+    } else {
+      document.getElementById('loginNavBtn').style.display = 'inline-block';
+      document.getElementById('accountNavBtn').style.display = 'none';
+    }
+  });
+</script>
+</html>

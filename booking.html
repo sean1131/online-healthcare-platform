@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Consultation - Farmersea</title>
+  <link rel="stylesheet" href="booking.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header class="sticky-nav">
+    <div class="logo">
+      <a href="home.html" style="text-decoration: none; color: inherit;">
+        <span class="logo-text">Farmer</span>
+        <span class="logo-sub">SEA</span>
+      </a>
+    </div>
+    <nav>
+      <a href="cart.html" style="margin-right: 18px; font-size: 1.3em; vertical-align: middle;" title="Cart"><i class="fa fa-shopping-cart"></i></a>
+      <a href="login.html" class="login-btn" id="loginNavBtn">Sign Up / Login</a>
+      <a href="profile.html" class="account-link" id="accountNavBtn" style="display: none;">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Account">
+        <span>Account</span>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Hero Slider -->
+  <div class="hero-slider">
+    <div class="hero-slide active">
+      <img src="https://merisehat.pk/_next/image?url=https%3A%2F%2Fd1irpg7po1rqdm.cloudfront.net%2Fmedia%2F4dTsghAUk2O19tOjrI8EIaxbE8USJFv5yLE51bi0.webp&w=1920&q=75" alt="Online Consultation">
+      <div class="hero-content">
+        <h2>24/7 Online Consultation</h2>
+        <p>Connect with certified doctors anytime, anywhere</p>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41591-021-01376-9/MediaObjects/41591_2021_1376_Figa_HTML.png" alt="Expert Doctors">
+      <div class="hero-content">
+        <h2>Expert Healthcare Professionals</h2>
+        <p>Get advice from specialized doctors across Malaysia</p>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <img src="https://www.hkvitals.com/blog/wp-content/uploads/2023/05/Benefits-of-having-a-healthy-lifestyle_900.jpg" alt="Quick Response">
+      <div class="hero-content">
+        <h2>Quick & Convenient</h2>
+        <p>Book your consultation in minutes, get help when you need it</p>
+      </div>
+    </div>
+    <div class="slider-dots">
+      <div class="slider-dot active"></div>
+      <div class="slider-dot"></div>
+      <div class="slider-dot"></div>
+    </div>
+  </div>
+
+  <main>
+    <div class="booking-container">
+      <h1>Book Your Consultation</h1>
+      <p class="subtitle">Connect with our healthcare professionals for personalized medical advice</p>
+      
+      <form id="bookingForm" class="booking-form">
+        <div class="form-section">
+          <label for="location">
+            <i class="fas fa-map-marker-alt"></i> Select Your Location
+          </label>
+          <select id="location" name="location" required>
+            <option value="">Choose your area...</option>
+            <option value="klang_valley">Klang Valley</option>
+            <option value="cyberjaya">Cyberjaya</option>
+            <option value="putrajaya">Putrajaya</option>
+            <option value="seremban">Seremban</option>
+            <option value="malacca">Malacca</option>
+            <option value="johor_bahru">Johor Bahru</option>
+            <option value="kuantan">Kuantan</option>
+            <option value="ipoh">Ipoh</option>
+            <option value="penang">Penang</option>
+            <option value="alor_setar">Alor Setar & Sungai Petani</option>
+            <option value="kuching">Kuching</option>
+            <option value="kota_kinabalu">Kota Kinabalu</option>
+          </select>
+        </div>
+
+        <div class="form-section">
+          <label for="specialty">
+            <i class="fas fa-stethoscope"></i> Select Medical Specialty
+          </label>
+          <select id="specialty" name="specialty" required>
+            <option value="">Choose specialty...</option>
+            <option value="general">General Medicine</option>
+            <option value="cardiology">Cardiology (Heart)</option>
+            <option value="dermatology">Dermatology (Skin)</option>
+            <option value="ent">ENT (Ear, Nose, Throat)</option>
+            <option value="gastro">Gastroenterology (Digestive)</option>
+            <option value="neurology">Neurology (Brain & Nerves)</option>
+            <option value="ortho">Orthopedics (Bones & Joints)</option>
+            <option value="pediatrics">Pediatrics (Children)</option>
+            <option value="psychiatry">Psychiatry (Mental Health)</option>
+            <option value="respiratory">Respiratory (Lungs)</option>
+            <option value="urology">Urology</option>
+            <option value="gynecology">Gynecology (Women's Health)</option>
+          </select>
+        </div>
+
+        <div class="form-section">
+          <label for="date">
+            <i class="fas fa-calendar-alt"></i> Select Consultation Date
+          </label>
+          <input type="date" id="date" name="date" required>
+        </div>
+
+        <div class="form-section">
+          <label for="time">
+            <i class="fas fa-clock"></i> Preferred Time Slot
+          </label>
+          <select id="time" name="time" required>
+            <option value="">Choose time slot...</option>
+            <option value="09:00">9:00 AM - 10:00 AM</option>
+            <option value="10:00">10:00 AM - 11:00 AM</option>
+            <option value="11:00">11:00 AM - 12:00 PM</option>
+            <option value="14:00">2:00 PM - 3:00 PM</option>
+            <option value="15:00">3:00 PM - 4:00 PM</option>
+            <option value="16:00">4:00 PM - 5:00 PM</option>
+            <option value="17:00">5:00 PM - 6:00 PM</option>
+            <option value="18:00">6:00 PM - 7:00 PM</option>
+            <option value="19:00">7:00 PM - 8:00 PM</option>
+            <option value="20:00">8:00 PM - 9:00 PM</option>
+          </select>
+        </div>
+
+        <div class="form-section">
+          <label for="description">
+            <i class="fas fa-comment-medical"></i> Describe Your Symptoms
+          </label>
+          <textarea id="description" name="description" rows="4" placeholder="Please describe your symptoms or health concerns in detail..." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-calendar-check"></i> Book Consultation
+        </button>
+      </form>
+
+      <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+          <i class="fas fa-check-circle success-icon"></i>
+          <h2>Booking Confirmed!</h2>
+          <p>Your consultation has been successfully booked.</p>
+          <p id="bookingDetails"></p>
+          <button onclick="closeModal()" class="close-modal-btn">OK</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>FarmerSEA</h3>
+        <p>Your trusted online doctor and pharmacy platform, providing quality healthcare services across Southeast Asia.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="pharmacy.html">Online Pharmacy</a></li>
+          <li><a href="booking.html">Doctor Consultation</a></li>
+          <li><a href="Q&A.html">Health Q&A</a></li>
+          <li><a href="#">Health Screening</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +60 12-345 6789</p>
+          <p><i class="fas fa-envelope"></i> info@farmersea.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2024 FarmerSEA. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <script src="booking.js"></script>
+</body>
+</html>

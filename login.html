@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up / Login - farmersea</title>
+  <link rel="stylesheet" href="login.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Firebase App (the core Firebase SDK) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <!-- Firebase Authentication -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3BzzTtffo9hxv_zNeU8D9-MJB0PgIuAs",
+      authDomain: "team5app-20eb7.firebaseapp.com",
+      projectId: "team5app-20eb7",
+      storageBucket: "team5app-20eb7.appspot.com",
+      messagingSenderId: "946605117578",
+      appId: "1:946605117578:web:6f0f5cd91c689ca1f05d73"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <div class="container">
+    <div class="left">
+      <img src="https://emedz.net/wp-content/uploads/2025/05/1799.jpg">
+      <div class="logo">
+        <span class="logo-text">Farmer</span>
+        <span class="logo-sub">SEA</span>
+      </div>
+    </div>
+    <div class="right">
+      <form class="login-form" onsubmit="return false;">
+        <div style="margin-top: 10px; margin-bottom: 18px;">
+          <img src="https://cdn-icons-png.flaticon.com/256/4599/4599153.png" alt="Health Icon" class="form-icon" style="display:block; margin:0 auto; margin-bottom:8px;">
+          <div class="form-title" style="margin-top:0;">Get Special Offers & Free Health Tips!</div>
+        </div>
+        <input type="email" id="email" placeholder="Email" required style="display:block; width:90%; margin-bottom:16px; padding: 10px;">
+        <input type="password" id="password" placeholder="Password" required style="display:block; width:90%; margin-bottom:20px; padding: 10px;">
+        <button type="button" class="btn main-btn" id="loginWithEmail" style="width:90%; margin-bottom:16px;">Login</button>
+        <button type="button" class="btn main-btn" id="registerWithEmail" style="width:90%; margin-bottom:20px;">Register</button>
+        <div id="formMessage" style="color:red; margin-top:8px;"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+<script>
+// Remove tab logic, use single form for both actions
+  document.getElementById('loginWithEmail').onclick = function() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        window.location.href = 'home.html';
+      })
+      .catch((error) => {
+        document.getElementById('formMessage').textContent = error.message;
+      });
+  };
+  document.getElementById('registerWithEmail').onclick = function() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        window.location.href = 'home.html';
+      })
+      .catch((error) => {
+        document.getElementById('formMessage').textContent = error.message;
+      });
+  };
+</script>
+</html>

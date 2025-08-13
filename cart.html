@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - FarmerSEA</title>
+  <link rel="stylesheet" href="cart.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="checkout.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @media (max-width: 600px) {
+      .cart-summary, .checkout-btn {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="home.html" style="text-decoration: none; color: inherit;">
+        <span class="logo-text">Farmer</span>
+        <span class="logo-sub">SEA</span>
+      </a>
+    </div>
+    <nav>
+      <a href="cart.html" style="margin-right: 18px; font-size: 1.3em; vertical-align: middle;" title="Cart"><i class="fa fa-shopping-cart"></i></a>
+      <a href="login.html" class="login-btn" id="loginNavBtn">Sign Up / Login</a>
+      <a href="profile.html" class="account-link" id="accountNavBtn" style="display: none; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: inherit;">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Account">
+        <span style="font-size: 1em;">Account</span>
+      </a>
+    </nav>
+  </header>
+  <main>
+    <div class="cart-container">
+      <a href="pharmacy.html" style="display:inline-block; margin-bottom:18px; color:#1a6ec1; font-weight:bold; text-decoration:none; font-size:1.1em;"><i class="fa fa-arrow-left"></i> Back to Pharmacy</a>
+      <h1>Your Cart</h1>
+      <div id="cartContent"></div>
+      <div class="cart-mobile-list" style="display:none"></div>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>FarmerSEA</h3>
+        <p>Your trusted online doctor and pharmacy platform, providing quality healthcare services across Southeast Asia.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="pharmacy.html">Online Pharmacy</a></li>
+          <li><a href="booking.html">Doctor Consultation</a></li>
+          <li><a href="Q&A.html">Health Q&A</a></li>
+          <li><a href="#">Health Screening</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact Info</h4>
+        <div class="contact-info">
+          <p><i class="fas fa-phone"></i> +60 12-345 6789</p>
+          <p><i class="fas fa-envelope"></i> info@farmersea.com</p>
+          <p><i class="fas fa-map-marker-alt"></i> Kuala Lumpur, Malaysia</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2024 FarmerSEA. All rights reserved.</p>
+    </div>
+  </footer>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    // Firebase Auth for showing login/account button
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3BzzTtffo9hxv_zNeU8D9-MJB0PgIuAs",
+      authDomain: "team5app-20eb7.firebaseapp.com",
+      projectId: "team5app-20eb7",
+      storageBucket: "team5app-20eb7.appspot.com",
+      messagingSenderId: "946605117578",
+      appId: "1:946605117578:web:6f0f5cd91c689ca1f05d73"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        document.getElementById('loginNavBtn').style.display = 'none';
+        document.getElementById('accountNavBtn').style.display = 'flex';
+      } else {
+        document.getElementById('loginNavBtn').style.display = 'inline-block';
+        document.getElementById('accountNavBtn').style.display = 'none';
+      }
+    });
+    // Render cart from localStorage
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const cartContent = document.getElementById('cartContent');
+      if (!cart.length) {
+        cartContent.innerHTML = '<div class="empty-cart"><i class="fa fa-shopping-cart" style="font-size:2em;"></i><br>Your cart is empty.</div>';
+        return;
+      }
+      let total = 0;
+      let html = '<table class="cart-table"><thead><tr><th>Product</th><th>Name</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead><tbody>';
+      cart.forEach((item, idx) => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        html += `<tr>
+          <td><img src="${item.img}" alt="${item.name}"></td>
+          <td>${item.name}</td>
+          <td>RM ${item.price.toFixed(2)}</td>
+          <td>
+            <div class="cart-qty-controls">
+              <button class="cart-qty-btn" onclick="updateQty(${idx}, -1)">-</button>
+              <span>${item.qty}</span>
+              <button class="cart-qty-btn" onclick="updateQty(${idx}, 1)">+</button>
+            </div>
+          </td>
+          <td>RM ${subtotal.toFixed(2)}</td>
+          <td><button class="cart-remove-btn" onclick="removeFromCart(${idx})"><i class="fa fa-trash"></i></button></td>
+        </tr>`;
+      });
+      html += '</tbody></table>';
+      html += `<div class="cart-summary"><b>Total: RM ${total.toFixed(2)}</b></div>`;
+      html += '<button class="checkout-btn" onclick="window.location.href=\'checkout.html\'">Proceed to Checkout</button>';
+      cartContent.innerHTML = html;
+    }
+    function updateQty(idx, delta) {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      cart[idx].qty += delta;
+      if (cart[idx].qty < 1) cart[idx].qty = 1;
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+    function removeFromCart(idx) {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      cart.splice(idx, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+    renderCart();
+
+    // --- MOBILE CARD LAYOUT ---
+    function renderMobileCart(cart) {
+      const container = document.querySelector('.cart-mobile-list');
+      if (!container) return;
+      container.innerHTML = '';
+      if (!cart.length) {
+        container.innerHTML = '<div class="empty-cart"><i class="fa fa-shopping-cart" style="font-size:2em;"></i><br>Your cart is empty.</div>';
+        return;
+      }
+      let total = 0;
+      cart.forEach((item, idx) => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        const card = document.createElement('div');
+        card.className = 'cart-item-row';
+        card.innerHTML = `
+          <img src="${item.img}" class="cart-item-img" alt="${item.name}">
+          <div class="cart-item-details" style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; width: 100%; gap: 10px;">
+            <div style="flex:1; min-width:0;">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-price">RM ${item.price.toFixed(2)}</div>
+              <div class="cart-item-subtotal">RM ${subtotal.toFixed(2)}</div>
+            </div>
+            <div class="cart-item-qty-row" style="flex-shrink:0; display:flex; align-items:center; gap:8px; margin-left:10px;">
+              <button class="cart-qty-btn" data-idx="${idx}" data-delta="-1">-</button>
+              <input type="text" class="cart-qty-input" value="${item.qty}" readonly>
+              <button class="cart-qty-btn" data-idx="${idx}" data-delta="1">+</button>
+            </div>
+          </div>
+          <button class="cart-item-delete" data-idx="${idx}"><i class="fa fa-trash"></i></button>
+        `;
+        container.appendChild(card);
+      });
+      // Only show total and checkout at the bottom
+      const totalDiv = document.createElement('div');
+      totalDiv.className = 'cart-total-row';
+      totalDiv.innerHTML = `Total: <b>RM ${total.toFixed(2)}</b>`;
+      container.appendChild(totalDiv);
+      const checkoutBtn = document.createElement('button');
+      checkoutBtn.className = 'cart-checkout-btn';
+      checkoutBtn.textContent = 'Proceed to Checkout';
+      checkoutBtn.onclick = function() { window.location.href = 'checkout.html'; };
+      container.appendChild(checkoutBtn);
+      // Event listeners
+      container.querySelectorAll('.cart-qty-btn').forEach(btn => {
+        btn.onclick = function() {
+          const idx = +this.getAttribute('data-idx');
+          const delta = +this.getAttribute('data-delta');
+          cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderMobileCart(cart);
+        };
+      });
+      container.querySelectorAll('.cart-item-delete').forEach(btn => {
+        btn.onclick = function() {
+          const idx = +this.getAttribute('data-idx');
+          cart.splice(idx, 1);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderMobileCart(cart);
+        };
+      });
+    }
+    // On page load, show mobile cart if on mobile
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.innerWidth <= 600) {
+        document.querySelector('.cart-table').style.display = 'none';
+        document.querySelector('.cart-mobile-list').style.display = 'block';
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        renderMobileCart(cart);
+      }
+    });
+  </script>
+</body>
+</html> 
